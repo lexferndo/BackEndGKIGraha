@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int         @id @default(autoincrement())
+  username              String      @unique
+  password              String
+  name                  String
+  email                 String
+  phone                 String
+  role                  String
+  activity              Activity[]
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @default(now())
+}
+
+model Document {
+  id                    Int         @id @default(autoincrement())
+  name                  String      @unique
+  type                  String
+  url_file              String
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @default(now())
+}
+
+model Streaming {
+  id                    Int         @id @default(autoincrement())
+  title                 String      @unique
+  embed                 String
+  publish               Boolean
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @default(now())
+}
+
+model Activity {
+  id                    Int         @id @default(autoincrement())
+  title                 String      @unique
+  description           String
+  place                 String
+  start_at              BigInt
+  end_at                BigInt
+  url_image             String
+  url_form              String
+  user_id               Int
+  user                  User        @relation(fields: [user_id], references: [id])
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @default(now())
+}
